@@ -11,5 +11,6 @@ namespace Cs481Hw4.Models
         public string Name { get; set; }
 		public string Type { get; set; }
 		public string Image { get; set; }
+        public string Website { get; set; }
     }
 }
