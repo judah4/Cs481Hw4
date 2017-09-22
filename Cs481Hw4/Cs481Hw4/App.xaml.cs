@@ -12,8 +12,11 @@ namespace Cs481Hw4
         public App()
         {
             InitializeComponent();
+            var tab = new TabbedPage();
+            MainPage = tab;
+            tab.Children.Add(new MainPage());
+            tab.Children.Add(new MainPage());
 
-            MainPage = new Cs481Hw4.MainPage();
         }
 
         protected override void OnStart()
