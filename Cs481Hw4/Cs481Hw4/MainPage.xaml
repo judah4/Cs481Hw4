@@ -7,12 +7,13 @@
     <ContentPage.Content>
         <StackLayout>
             <Label Text="Octopus Recipes" FontSize="24"/>
-            <ListView  x:Name="lstView" RowHeight="60" ItemSelected="LstView_OnItemSelected" IsPullToRefreshEnabled="true"
+            <ListView  x:Name="lstView" RowHeight="60" IsPullToRefreshEnabled="true"
             Refreshing="Handle_Refreshing">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ImageCell ImageSource="{Binding Image}" 
-                                Text="{Binding Name}" Detail="{Binding Type}">
+                                Text="{Binding Name}" Detail="{Binding Type}"
+                                   Tapped="Cell_OnTapped">
                             <ImageCell.ContextActions>
                                 <MenuItem
                                 Text="Visit"

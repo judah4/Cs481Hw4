@@ -67,5 +67,12 @@ namespace Cs481Hw4
             BuildRecipes(true);
             lstView.EndRefresh();
         }
+
+        private void Cell_OnTapped(object sender, EventArgs e)
+        {
+            var cell = (ImageCell)sender;
+            var item = (RecipeModel)cell.BindingContext;
+            OpenWebsite(item.Website);
+        }
     }
 }

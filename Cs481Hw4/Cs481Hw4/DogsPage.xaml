@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Cs481Hw4.DogsPage"
+             Title="Rescue Dogs">
+    <ListView x:Name="lstView"
+            IsPullToRefreshEnabled="true"
+            Refreshing="Handle_Refreshing">
+            
+    <!--Built in Cells-->
+    <ListView.ItemTemplate>
+      <DataTemplate>
+        <ImageCell ImageSource="{Binding Image}" 
+                        Text="{Binding Name}" Detail="{Binding Type}"
+                            Tapped="Cell_OnTapped">
+            <ImageCell.ContextActions>
+                <MenuItem
+                        Text="Visit"
+                        Clicked="Handle_NavigateToUrl"
+                        CommandParameter="{Binding Website}"
+                        IsDestructive="True" />
+            </ImageCell.ContextActions>
+        </ImageCell>
+        </DataTemplate>
+    </ListView.ItemTemplate>
+    
+    <!--Custom View Cells-->
+    <!--
+    <ListView.ItemTemplate>
+      <DataTemplate>
+        <ViewCell>
+          <StackLayout>
+            <Label Text="{Binding Text}" 
+                   Style="{DynamicResource ListItemTextStyle}" />
+            <Label Text="{Binding Detail}" 
+                   Style="{DynamicResource ListItemDetailTextStyle}"/>
+          </StackLayout>
+        </ViewCell>
+      </DataTemplate>
+    </ListView.ItemTemplate>
+    -->
+  </ListView>
+</ContentPage>

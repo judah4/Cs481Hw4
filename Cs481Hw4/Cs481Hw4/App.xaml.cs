@@ -15,7 +15,7 @@ namespace Cs481Hw4
             var tab = new TabbedPage();
             MainPage = tab;
             tab.Children.Add(new MainPage());
-            tab.Children.Add(new MainPage());
+            tab.Children.Add(new DogsPage());
 
         }
 
