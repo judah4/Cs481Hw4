@@ -36,33 +36,51 @@ namespace Cs481Hw4
             HttpClient client = new HttpClient();
             var response = await client.GetAsync("http://www.dogsonly.org/feed.xml");
             var data = await response.Content.ReadAsStringAsync();
-            XDocument.Parse(data);
-            var reader = XmlReader.Create(TextReader.Null);
-            var channel = reader["channel"];
-            Items.Add(new RecipeModel()
-            {
-                Name = data,
-                Type = "All"
-                
-            });
-            Items.Add(new RecipeModel()
-            {
-                Name = channel.ToString(),
-                Type = "Channel"
-                
-            });
-            //for (int cnt = 3; cnt < channel.Length; cnt++)
+            var doc = XDocument.Parse(data);
+
+            //Items.Add(new RecipeModel()
             //{
-            //    var item = channel[cnt];
-            //}
-            
+            //    Name = data,
+            //    Type = "All"
+                
+            //});
+
+            foreach (var node in doc.Descendants("item"))
+            {
+                if (node.Name == "item")
+                {
+                    var model = new RecipeModel();
+                    foreach (var descendant in node.Descendants())
+                    {
+                        if (descendant.Name == "title")
+                        {
+                            model.Name = descendant.Value;
+                        }
+                        else if (descendant.Name == "description")
+                        {
+                            model.Type = descendant.Value;
+                        }
+                        else if (descendant.Name == "link")
+                        {
+                            model.Website = descendant.Value;
+                        }
+                    }
+
+                     Items.Add(model);
+                }
+            }
+
+
         }
 
-        void Handle_NavigateToUrl(object sender, System.EventArgs e)
+        async Task Handle_NavigateToUrl(object sender, System.EventArgs e)
 		{
             var listViewItem = (MenuItem)sender;
-            var url = (string)listViewItem.CommandParameter;
-            Device.OpenUri(new Uri(url));
+            var item = (RecipeModel)listViewItem.BindingContext;
+
+            await DisplayAlert("Item Tapped", item.Name, "OK"); 
+            //var url = (string)listViewItem.CommandParameter;
+            //Device.OpenUri(new Uri(url));
 		}
 
         void Handle_Delete(object sender, System.EventArgs e)
