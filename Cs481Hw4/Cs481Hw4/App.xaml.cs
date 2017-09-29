@@ -12,7 +12,8 @@ namespace Cs481Hw4
         public App()
         {
             InitializeComponent();
-            MainPage = new DogsPage();
+            
+            MainPage = new NavigationPage(new DogsPage());
 
         }
 

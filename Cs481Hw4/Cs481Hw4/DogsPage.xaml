@@ -5,17 +5,17 @@
              Title="Rescue Dogs">
     <ListView x:Name="lstView"
             IsPullToRefreshEnabled="true"
-            Refreshing="Handle_Refreshing">
+            Refreshing="Handle_Refreshing" BackgroundColor="BlanchedAlmond">
             
     <!--Built in Cells-->
     <ListView.ItemTemplate>
       <DataTemplate>
         <ImageCell ImageSource="{Binding Image}" 
-                        Text="{Binding Name}" Detail="{Binding Type}"
+                        Text="{Binding Name}" Detail="{Binding Title}"
                             >
             <ImageCell.ContextActions>
                     <MenuItem
-                        Text="Visit"
+                        Text="More Info"
                         Clicked="Handle_NavigateToUrl"
                         CommandParameter="{Binding Website}"
                         IsDestructive="False" />

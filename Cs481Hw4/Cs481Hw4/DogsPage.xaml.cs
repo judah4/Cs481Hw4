@@ -17,15 +17,15 @@ namespace Cs481Hw4
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DogsPage : ContentPage
     {
-        public ObservableCollection<RecipeModel> Items { get; set; }
+        public ObservableCollection<DogModel> Items { get; set; }
 
         public DogsPage()
         {
             InitializeComponent();
 
-            Items = new ObservableCollection<RecipeModel>();
+            Items = new ObservableCollection<DogModel>();
 
-            Items = new ObservableCollection<RecipeModel> ();
+            Items = new ObservableCollection<DogModel> ();
             BuildRecipes(false);
 		    lstView.ItemsSource = Items;
         }
@@ -38,10 +38,10 @@ namespace Cs481Hw4
             var data = await response.Content.ReadAsStringAsync();
             var doc = XDocument.Parse(data);
 
-            //Items.Add(new RecipeModel()
+            //Items.Add(new DogModel()
             //{
             //    Name = data,
-            //    Type = "All"
+            //    Desc = "All"
                 
             //});
 
@@ -49,16 +49,17 @@ namespace Cs481Hw4
             {
                 if (node.Name == "item")
                 {
-                    var model = new RecipeModel();
+                    var model = new DogModel();
                     foreach (var descendant in node.Descendants())
                     {
                         if (descendant.Name == "title")
                         {
-                            model.Name = descendant.Value;
+                            model.Title = descendant.Value;
+                            model.Name = model.Title.Split(' ')[0];
                         }
                         else if (descendant.Name == "description")
                         {
-                            model.Type = descendant.Value;
+                            model.Desc = descendant.Value;
                         }
                         else if (descendant.Name == "link")
                         {
@@ -73,20 +74,19 @@ namespace Cs481Hw4
 
         }
 
-        async Task Handle_NavigateToUrl(object sender, System.EventArgs e)
+        async Task Handle_NavigateToUrl(object sender, EventArgs e)
 		{
             var listViewItem = (MenuItem)sender;
-            var item = (RecipeModel)listViewItem.BindingContext;
+            var item = (DogModel)listViewItem.BindingContext;
+		    await Navigation.PushAsync(new DogViewerPage(item));
+		    //await DisplayAlert("Item Tapped", item.Name, "OK"); 
 
-            await DisplayAlert("Item Tapped", item.Name, "OK"); 
-            //var url = (string)listViewItem.CommandParameter;
-            //Device.OpenUri(new Uri(url));
 		}
 
         void Handle_Delete(object sender, System.EventArgs e)
 		{
             var listViewItem = (MenuItem)sender;
-            var item = (RecipeModel)listViewItem.BindingContext;
+            var item = (DogModel)listViewItem.BindingContext;
 		    Items.Remove(item);
 		}
 
@@ -105,8 +105,9 @@ namespace Cs481Hw4
         private void Cell_OnTapped(object sender, EventArgs e)
         {
             var cell = (ImageCell)sender;
-            var item = (RecipeModel)cell.BindingContext;
+            var item = (DogModel)cell.BindingContext;
             OpenWebsite(item.Website);
         }
+
     }
 }
