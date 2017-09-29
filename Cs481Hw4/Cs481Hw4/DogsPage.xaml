@@ -12,12 +12,16 @@
       <DataTemplate>
         <ImageCell ImageSource="{Binding Image}" 
                         Text="{Binding Name}" Detail="{Binding Type}"
-                            Tapped="Cell_OnTapped">
+                            >
             <ImageCell.ContextActions>
-                <MenuItem
+                    <MenuItem
                         Text="Visit"
                         Clicked="Handle_NavigateToUrl"
                         CommandParameter="{Binding Website}"
+                        IsDestructive="False" />
+                    <MenuItem
+                        Text="Delete"
+                        Clicked="Handle_Delete"
                         IsDestructive="True" />
             </ImageCell.ContextActions>
         </ImageCell>

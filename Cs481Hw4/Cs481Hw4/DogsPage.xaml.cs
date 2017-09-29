@@ -25,19 +25,11 @@ namespace Cs481Hw4
 
             Items = new ObservableCollection<RecipeModel>();
 
-            BindingContext = this;
+            Items = new ObservableCollection<RecipeModel> ();
+            BuildRecipes(false);
+		    lstView.ItemsSource = Items;
         }
 
-        async void Handle_ItemTapped(object sender, SelectedItemChangedEventArgs e)
-        {
-            if (e.SelectedItem == null)
-                return;
-
-            await DisplayAlert("Item Tapped", "An item was tapped.", "OK");
-
-            //Deselect Item
-            ((ListView)sender).SelectedItem = null;
-        }
 
         async void BuildRecipes(bool hotdog)
         {
@@ -47,15 +39,23 @@ namespace Cs481Hw4
             XDocument.Parse(data);
             var reader = XmlReader.Create(TextReader.Null);
             var channel = reader["channel"];
-            for (int cnt = 3; cnt < channel.Length; cnt++)
+            Items.Add(new RecipeModel()
             {
-                var item = channel[cnt];
-            }
+                Name = data,
+                Type = "All"
+                
+            });
+            Items.Add(new RecipeModel()
+            {
+                Name = channel.ToString(),
+                Type = "Channel"
+                
+            });
+            //for (int cnt = 3; cnt < channel.Length; cnt++)
+            //{
+            //    var item = channel[cnt];
+            //}
             
-        }
-
-        private void AsyncCall(IAsyncResult ar)
-        {
         }
 
         void Handle_NavigateToUrl(object sender, System.EventArgs e)
@@ -63,6 +63,13 @@ namespace Cs481Hw4
             var listViewItem = (MenuItem)sender;
             var url = (string)listViewItem.CommandParameter;
             Device.OpenUri(new Uri(url));
+		}
+
+        void Handle_Delete(object sender, System.EventArgs e)
+		{
+            var listViewItem = (MenuItem)sender;
+            var item = (RecipeModel)listViewItem.BindingContext;
+		    Items.Remove(item);
 		}
 
         void OpenWebsite(string url)
